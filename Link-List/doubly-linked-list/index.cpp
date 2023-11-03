@@ -20,6 +20,7 @@ node* delete_head(node* head);
 node* delete_tail(node* head);
 node* insert_N_values(node *head, int n);
 void print_reverse_list(node *head);
+node* delete_nth(node* head, int pos);
 
 int main()
 {
@@ -74,6 +75,16 @@ int main()
 
         else if(choice == 6)
         {
+            printf("\ninsert position: ");
+            scanf("%d",&pos);
+            if(pos > list_size(head))
+            {
+                printf("\ninvalid position.\n");
+            }
+            else
+            {
+                head = delete_nth(head, pos);
+            }
 
         }
         else if(choice == 7)
@@ -314,5 +325,40 @@ node* insert_N_values(node *head, int n)
     }
 
     return head;
+}
 
+node* delete_nth(node* head, int pos)
+{
+    if (head == NULL)
+    {
+        printf("\nList is empty.\n");
+    }
+    else if (pos == 1)
+    {
+        head = delete_head(head);
+    }
+    else if (pos == list_size(head))
+    {
+        head = delete_tail(head);
+    }
+    else if (pos > 1 && pos < list_size(head))
+    {
+        node* temp = head;
+
+        for (int i = 1; i < pos - 1; i++)
+        {
+            temp = temp->next;
+        }
+
+        node* to_delete = temp->next;
+        temp->next = to_delete->next;
+        to_delete->next->prev = temp;
+        free(to_delete);
+    }
+    else
+    {
+        printf("\nInvalid position.\n");
+    }
+
+    return head;
 }
